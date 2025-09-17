@@ -33,3 +33,37 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.register('cleanup', Delete) {
+    group = 'clean'
+    delete "$projectDir/build/libs/lib"
+}
+
+tasks.register('extractDependencies', Copy) {
+    dependsOn cleanup
+
+    description = 'Extracts all runtime dependencies to a directory'
+    group = 'build'
+    into "$projectDir/build/libs/lib"
+
+    from {
+        configurations.runtimeClasspath
+    }
+}
+
+jar {
+    dependsOn extractDependencies
+
+    archiveBaseName.set('CheckoutComponent.jar')
+    archiveVersion.set("1.0.0")
+    archiveClassifier.set('release')
+    destinationDirectory.set(file("$projectDir/build/libs"))
+    from sourceSets.main.output
+
+    manifest {
+        attributes(
+                'Main-Class': 'checkout.component.app.CheckoutComponent',
+                'Class-Path': configurations.runtimeClasspath.files.collect { 'lib/' + it.name }.join(' ')
+        )
+    }
+}
