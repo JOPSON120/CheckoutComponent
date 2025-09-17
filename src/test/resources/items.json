@@ -7,7 +7,6 @@
       "price": 7.5
     }
   },
-
   {
     "id": "Test_B",
     "price": 1,
@@ -15,5 +14,15 @@
       "quantity": 10,
       "price": 0.9
     }
+  },
+  {
+    "id": "Test_C",
+    "price": 100,
+    "discount": null
+  },
+  {
+    "id": "Test_D",
+    "price": 69,
+    "discount": null
   }
 ]

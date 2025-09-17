@@ -29,6 +29,28 @@ public class CalculationTests {
     }
 
     @Test
+    void testSpecialDiscounts() {
+        assertEquals(AddState.ADDED, checkoutService.addItem("Test_A", 17), "Item was not added!");
+        assertEquals(130f, checkoutService.actualPrice(), "Wrong calculated price!");
+        assertEquals(AddState.ADDED, checkoutService.addItem("Test_B", 10), "Item was not added!");
+        assertEquals(139f, checkoutService.actualPrice(), "Wrong calculated price!");
+        assertEquals(AddState.ADDED, checkoutService.addItem("Test_C", 2), "Item was not added!");
+        assertEquals(getExpected(), checkoutService.actualPrice(), "Wrong calculated price!");
+        assertEquals(AddState.ADDED, checkoutService.addItem("Test_D", 1), "Item was not added!");
+        assertEquals(395.5f, checkoutService.actualPrice(), "Wrong calculated price!");
+        assertEquals(AddState.ADDED, checkoutService.addItem("Test_D", 1), "Item was not added!");
+        assertEquals(461f, checkoutService.actualPrice(), "Wrong calculated price!");
+        Receipt receipt = checkoutService.receipt();
+        assertNotNull(receipt, "Receipt not generated!");
+        assertEquals(461f, receipt.getTotalPrice());
+        assertEquals(57f, receipt.getSavings());
+    }
+
+    private static float getExpected() {
+        return 336.5f;
+    }
+
+    @Test
     void testDiscountAndReceipt() {
         assertEquals(AddState.ADDED, checkoutService.addItem("Test_A", 5), "Item was not added!");
         assertEquals(AddState.ADDED, checkoutService.addItem("Test_B", 9), "Item was not added!");

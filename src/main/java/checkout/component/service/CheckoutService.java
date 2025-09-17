@@ -4,12 +4,15 @@ import checkout.component.AddState;
 import checkout.component.dto.Offer;
 import checkout.component.dto.PurchaseRecord;
 import checkout.component.dto.Receipt;
+import checkout.component.dto.SpecialOffer;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -43,7 +46,7 @@ public class CheckoutService {
         for (Map.Entry<String, Integer> entry : items.entrySet()) {
             price += Offer.getInstance().getPrice(entry.getKey(), entry.getValue());
         }
-        return price;
+        return price - calculateSpecialDiscount();
     }
 
     public Receipt receipt() {
@@ -61,6 +64,29 @@ public class CheckoutService {
             totalPrice += price;
             receiptBuilder = receiptBuilder.record(new PurchaseRecord(entry.getKey(), entry.getValue(), price, basePrice - price));
         }
+        totalPrice -= calculateSpecialDiscount();
+        savings += calculateSpecialDiscount();
         return receiptBuilder.savings(savings).totalPrice(totalPrice).build();
+    }
+
+    private float calculateSpecialDiscount() {
+        float discount = 0f;
+        Map<String, Integer> copiedMap = new HashMap<>(items);
+        List<SpecialOffer> specialOffers = Offer.getInstance().getSpecialOffers();
+        for (SpecialOffer offer: specialOffers) {
+            Map<String, Integer> removalMap = new HashMap<>();
+            for (Map.Entry<String, Integer> entry: offer.requirements().entrySet()) {
+                if (entry.getValue() > copiedMap.getOrDefault(entry.getKey(), 0)) {
+                    removalMap.put(entry.getKey(), -1);
+                } else {
+                    removalMap.put(entry.getKey(), entry.getValue());
+                }
+            }
+            if (removalMap.values().stream().noneMatch(value -> value == -1)) {
+                removalMap.forEach((key, value) -> copiedMap.put(key, copiedMap.get(key) - value));
+                discount += offer.savings();
+            }
+        }
+        return discount;
     }
 }

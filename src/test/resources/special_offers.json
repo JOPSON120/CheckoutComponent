@@ -1,0 +1,26 @@
+[
+  {
+    "requirements": {
+      "Test_A": 3,
+      "Test_B": 5,
+      "Test_C": 1,
+      "Test_D": 1
+    },
+    "savings": 10
+  },
+  {
+    "requirements": {
+      "Test_A": 1,
+      "Test_B": 1,
+      "Test_C": 1
+    },
+    "savings": 2.5
+  },
+  {
+    "requirements": {
+      "Test_A": 5,
+      "Test_D": 1
+    },
+    "savings": 3.5
+  }
+]
