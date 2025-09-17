@@ -4,7 +4,6 @@ import checkout.component.AddState;
 import checkout.component.dto.Offer;
 import checkout.component.dto.PurchaseRecord;
 import checkout.component.dto.Receipt;
-import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +47,10 @@ public class CheckoutService {
     }
 
     public Receipt receipt() {
+        if (!started) {
+            logger.warn("Checkout did not start, but trying to get a receipt");
+            return null;
+        }
         float savings = 0f;
         float totalPrice = 0f;
         Receipt.ReceiptBuilder receiptBuilder = Receipt.builder();

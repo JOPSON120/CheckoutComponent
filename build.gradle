@@ -17,6 +17,11 @@ dependencies {
 
     // Spring Boot Starter for Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Spring Boot test starter (JUnit, AssertJ, Mockito, MockMvc, etc.)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // RestAssured for acceptance tests
+    testImplementation 'io.rest-assured:rest-assured'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'

@@ -28,6 +28,9 @@ public class CheckoutController {
     @PostMapping("add")
     public ResponseEntity<Float> addItem(@RequestParam(name = "item_id") String itemId,
                                         @RequestParam(name = "quantity", defaultValue = "1") int quantity) {
+        if (quantity <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
         AddState state = checkoutService.addItem(itemId, quantity);
         if (state == AddState.NOT_STARTED) {
             return ResponseEntity.badRequest().build();
