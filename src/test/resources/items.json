@@ -1,16 +1,7 @@
 [
   {
-    "id": "A",
-    "price": 40.0,
-    "discount": {
-      "quantity": 3,
-      "price": 30
-    }
-  },
-
-  {
-    "id": "B",
-    "price": 10.0,
+    "id": "Test_A",
+    "price": 10,
     "discount": {
       "quantity": 2,
       "price": 7.5
@@ -18,20 +9,11 @@
   },
 
   {
-    "id": "C",
-    "price": 30.0,
+    "id": "Test_B",
+    "price": 1,
     "discount": {
-      "quantity": 4,
-      "price": 20
-    }
-  },
-
-  {
-    "id": "D",
-    "price": 25.0,
-    "discount": {
-      "quantity": 2,
-      "price": 23.5
+      "quantity": 10,
+      "price": 0.9
     }
   }
 ]

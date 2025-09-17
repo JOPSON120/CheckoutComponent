@@ -3,12 +3,14 @@ package checkout.component.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Singular;
 
 import java.util.List;
 
 @JsonSerialize
 @Builder
+@Getter
 public class Receipt {
     @JsonProperty
     @Singular
